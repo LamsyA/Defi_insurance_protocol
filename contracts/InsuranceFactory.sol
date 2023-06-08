@@ -5,16 +5,17 @@ import "./CryptoWalletInsurance.sol";
 import "./CollateralProtectionInsurance.sol";
 
 contract InsuranceFactory  {
-    mapping(address => address) public userInsuranceContracts;
+    mapping(address => address) private  userInsuranceContracts;
+    mapping(address => address) private  userCryptowalletContract;
 
     event CryptoWalletInsuranceCreated(address indexed user, address insuranceContract);
     event CollateralProtectionInsuranceCreated(address indexed user, address insuranceContract);
 
     function createCryptoWalletInsurance(uint256 _insuredAmount) external {
-        require(userInsuranceContracts[msg.sender] == address(0), "User already has an insurance contract");
+        require(userCryptowalletContract[msg.sender] == address(0), "User already has an insurance contract");
 
         CryptoWalletInsurance insuranceContract = new CryptoWalletInsurance(_insuredAmount);
-        userInsuranceContracts[msg.sender] = address(insuranceContract);
+        userCryptowalletContract[msg.sender] = address(insuranceContract);
 
         emit CryptoWalletInsuranceCreated(msg.sender, address(insuranceContract));
     }
@@ -27,7 +28,10 @@ contract InsuranceFactory  {
 
         emit CollateralProtectionInsuranceCreated(msg.sender, address(insuranceContract));
     }
-    function getContract() external view returns(address){
-    return userInsuranceContracts[msg.sender];
+    function getuserInsuranceContracts() external view returns(address){
+       return userInsuranceContracts[msg.sender];
+    }
+    function getUserCryptowalletContract() external view returns(address){
+       return userCryptowalletContract[msg.sender];
     }
 }
