@@ -6,8 +6,8 @@ contract CryptoWalletInsurance {
     bool public insured;
     uint256 public insuredAmount;
     uint256 public token;
-    uint256 constant private BASIC_PREMIUM_INSURED_COVERAGE_TIME = 20 seconds;
-    uint256 constant private STANDARD_PREMIUM_INSURED_COVERAGE_TIME = 30 seconds;
+    uint256 constant private BASIC_PREMIUM_INSURED_COVERAGE_TIME = 30 days;
+    uint256 constant private STANDARD_PREMIUM_INSURED_COVERAGE_TIME = 60 days;
 
     uint256 public insuranceCoverageTime;
 

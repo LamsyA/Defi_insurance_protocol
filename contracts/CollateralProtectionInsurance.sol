@@ -29,8 +29,8 @@ contract CollateralProtectionInsurance {
    
     uint256 private constant BASIC_LOAN = 0.5 ether;
     uint256 private constant PREMIUM_LOAN = 1 ether;
-    uint256 private constant BASIC_LOAN_TIME = 20 seconds;
-    uint256 private constant PREMIUM_LOAN_TIME = 30 seconds;
+    uint256 private constant BASIC_LOAN_TIME = 30 days;
+    uint256 private constant PREMIUM_LOAN_TIME = 60 days;
     
     modifier onlyOwner() {
         require(msg.sender == owner, "Only contract owner can perform this action");
