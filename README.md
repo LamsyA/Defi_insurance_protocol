@@ -17,6 +17,18 @@ This contract enables owners of smart contract wallets to stay protected from ha
 - Claiming insurance after the coverage period has expired
 - Tracking wallet balances and token balances
 
+The `payInsurance()` function implements a policy for determining the insurance coverage time and token amount based on the payment made by the user. The policy is divided into two tiers: basic premium and standard premium.
+
+1. Basic Premium Policy:
+If the payment made by the user is less than 1 Ether, the policy assigns a basic premium insurance coverage time. The coverage time is set to the current timestamp plus the value defined in `BASIC_PREMIUM_INSURED_COVERAGE_TIME`. Additionally, the token amount is calculated using the formula: `(payment * 4 * coverageTime) / BASIC_PREMIUM_POLICY`.
+
+2. Standard Premium Policy:
+If the payment made by the user is greater than or equal to 1 Ether, the policy assigns a standard premium insurance coverage time. The coverage time is set to the current timestamp plus the value defined in `STANDARD_PREMIUM_INSURED_COVERAGE_TIME`. The token amount is calculated using the formula: `(payment * 9 * coverageTime) / STANDARD_PREMIUM_POLICY`.
+
+The policy uses the payment amount, coverage time, and predefined policy constants (`BASIC_PREMIUM_POLICY` and `STANDARD_PREMIUM_POLICY`) to determine the token amount. The token amount represents the amount of tokens the user will receive as part of the insurance coverage.
+
+
+
 ### `CollateralProtectionInsurance`
 
 This contract provides collateral protection for crypto-backed loans. Based on the chosen insurance policy, the contract decides whether to give back the entire loan or a percentage of the loan when the collateral value drops below a specified threshold. The contract includes the following functionalities:
