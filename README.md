@@ -4,6 +4,18 @@ Certainly! Here's an example README.md file for your insurance provider protocol
 
 This project implements an insurance provider protocol using Solidity. The protocol allows users to participate in two types of insurance: Crypto Wallet Insurance and Collateral Protection for Crypto-backed Loans. Users can pay premiums, claim insurance, and benefit from the coverage provided by the protocol.
 
+
+## Getting Started
+
+To use the insurance provider protocol, follow these steps:
+
+1. Clone the repository and navigate to the project directory.
+2. Install the necessary dependencies.
+3. Deploy the `InsuranceFactory` contract to the desired Ethereum network.
+4. Interact with the deployed `InsuranceFactory` contract to create `CryptoWalletInsurance` and `CollateralProtectionInsurance` contracts for users.
+5. Users can then pay insurance premiums, claim insurance, and utilize the coverage provided by the protocol.
+
+
 ## Contracts
 
 The solution consists of the following Solidity contracts:
@@ -38,6 +50,29 @@ This contract provides collateral protection for crypto-backed loans. Based on t
 - Repayment of loans
 - Claiming collateral when loans are repaid
 
+The loan policy in the smart contract is as follows:
+
+1. Loan Amount and Collateral Validation:
+   - The function requires that the `loanAmount` and `collateralAmount` provided as parameters are greater than zero.
+   - If either of these requirements is not met, the function will revert with an error message.
+
+2. Loan Creation:
+   - The function checks if there is no existing loan for the contract owner (`msg.sender`).
+   - If there is no existing loan, the function determines whether the `loanAmount` qualifies for a basic loan or a premium loan.
+   - If the `loanAmount` is greater than the `BASIC_LOAN` constant (0.5 ether), it is considered a premium loan.
+   - For a premium loan, the loan policy is created with the following parameters:
+     - `loanAmount`: The requested loan amount.
+     - `collateralAmount`: The collateral provided by the borrower.
+     - `loanTime`: The current timestamp plus the `PREMIUM_LOAN_TIME` constant (60 days).
+     - `loanToRepay`: The loan amount plus 20% of the loan amount as interest.
+     - `wallet`: Initial wallet balance set to zero.
+     - `paid`: A boolean flag indicating if the loan has been paid.
+   - If the `loanAmount` is less than or equal to the `BASIC_LOAN` constant, it is considered a basic loan.
+   - For a basic loan, the loan policy is created with similar parameters as the premium loan, but the interest is 10% of the loan amount.
+   - The collateral amount is associated with the contract owner's address in the `loanCollateral` mapping.
+   - An event `LoanCreated` is emitted to indicate the successful creation of the loan.
+
+Note: The policy calculates the loan-to-repay amount by adding interest to the loan amount based on a percentage.
 ### `InsuranceFactory`
 
 This contract serves as a factory contract for deploying individual insurance contracts for each user. It includes the following features:
@@ -46,25 +81,7 @@ This contract serves as a factory contract for deploying individual insurance co
 - Creation of individual `CollateralProtectionInsurance` contracts for users
 - Mapping of user addresses to their respective insurance contracts
 
-## Getting Started
 
-To use the insurance provider protocol, follow these steps:
-
-1. Clone the repository and navigate to the project directory.
-2. Install the necessary dependencies.
-3. Deploy the `InsuranceFactory` contract to the desired Ethereum network.
-4. Interact with the deployed `InsuranceFactory` contract to create `CryptoWalletInsurance` and `CollateralProtectionInsurance` contracts for users.
-5. Users can then pay insurance premiums, claim insurance, and utilize the coverage provided by the protocol.
-
-## Development
-
-To further develop or customize the insurance provider protocol, consider the following:
-
-- Modify premium amounts, coverage periods, or other parameters as per your requirements.
-- Implement additional features such as different insurance policies, interest calculations, or integration with external DeFi platforms.
-- Enhance error handling and input validation to ensure the contracts are used safely and securely.
-- Thoroughly test the contracts, including edge cases and potential vulnerabilities.
-- Consider security best practices and keep up-to-date with the latest Solidity versions and security recommendations.
 
 ## License
 
