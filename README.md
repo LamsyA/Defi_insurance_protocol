@@ -58,6 +58,8 @@ To further develop or customize the insurance provider protocol, consider the fo
 
 This project is licensed under the [MIT License](LICENSE).
 
+## Deployed on Mumbai test net.
+
 ## Acknowledgements
 
 - [Etherisc](https://www.etherisc.com/) for providing inspiration for the insurance protocol implementation.
